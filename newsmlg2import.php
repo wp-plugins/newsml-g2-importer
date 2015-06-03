@@ -3,7 +3,7 @@
  * Plugin Name: NewsML-G2-Importer
  * Plugin URI: http://apa-it.at/
  * Description: Imports NewsML-G2 data (APA, APA-OTS, Kathpress and Thomson Reuters) and inserts them as NewsML Post which is accessible via http://your.blog/news. The access to the NewsML-G2 files is possbile via HTTP and FTP. Every 5 minutes the folder is parsed again and the news get updated. <strong>Warning: </strong> After the activation of the plugin you will be redirected to the settings to configure the plugin.
- * Version: 1.0
+ * Version: 1.0.2
  * Author: Bernhard Punz
  * Author URI: -
  * License: GPLv2
@@ -630,7 +630,7 @@ class NewsMLG2_Importer_Plugin {
 
         $valid['url_newsml'] = sanitize_text_field( $input['url_newsml'] );
         $valid['image_dir'] = sanitize_text_field( 'wp-content/newsml-images' );
-        $valid['expire_time'] = intval( sanitize_text_field( $input['expire_time'] ) );
+        $valid['expire_time'] = sanitize_text_field( $input['expire_time'] );
 
         if ( isset( $input['enable_ftp'] ) ) {
             $valid['enable_ftp'] = sanitize_text_field( $input['enable_ftp'] );
@@ -703,6 +703,8 @@ class NewsMLG2_Importer_Plugin {
 
             $valid['expire_time'] = sanitize_text_field( $this->data['expire_time'] );
         }
+
+        $valid['expire_time'] = intval( $valid['expire_time'] );
 
         return $valid;
     }
